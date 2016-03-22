@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        
+        
+    </head>
+    <body>
+        
+        
+        <h1>Create task with name:</h1>
+        <input type="text" id="createNameField" value="" />
+        <button id="createTask" >Create</button>
+     
+        
+        
+        <h1>Complete task with name:</h1>
+        <input type="text" id="updateNameField" value="" />
+        <button id="updateTask" >Update</button>        
+        
+        
+        
+        <h1>List of tasks:</h1>
+        <button id="listTasks" >Update/Show list</button>
+
+        <div id="taskLists" ></div>
+        
+        <script>
+            
+            var apiHost = "http://127.0.0.1:8081";
+            
+            $( "#listTasks" ).click(function() {
+                
+                $.get( apiHost + "/listTasks", function( data ) {
+                    
+                    var html = "";
+                    
+                    alert(data);
+                    
+                    $.each(data.data, function(k, v) {
+                        /// do stuff
+                        html = html + " " + k + " - " + v;
+                    });  
+                    
+                    $("#taskLists").html(html);
+                });
+            });
+            
+            $( "#createTask" ).click(function() {
+              
+                var name = $("#createNameField").val();
+                
+                data = { taskName: name };
+                
+                $.post( 
+                    apiHost + "/createTask", 
+                    data,
+                    function( data ) {
+                        console.log(data);
+                    });                   
+            });         
+            
+            $( "#updateTask" ).click(function() {
+              
+                var name = $("#updateNameField").val();
+                
+                data = { taskName: name };
+                
+                $.post( 
+                    apiHost + "/updateTask", 
+                    data,
+                    function( data ) {
+                        console.log(data);
+                    });           
+            });  
+            
+        </script>
+        
+    </body>
+</html>
